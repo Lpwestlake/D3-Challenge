@@ -12,19 +12,19 @@ var margin = {
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
-// Create an SVG wrapper, append an SVG group that will hold our chart,
+// create an SVG wrapper, append an SVG group that will hold our chart,
 // and shift the latter by left and top margins.
 var svg = d3.select("#scatter")
     .append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
-// Append an SVG group
+// append an SVG group
 var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 
-// Retrieve data from the CSV file and execute everything below
+// retrieve data from the CSV file and execute everything below
 d3.csv("assets/data/data.csv").then(function (data, err) {
     if (err) throw err;
     // console.log(data);
@@ -49,17 +49,17 @@ d3.csv("assets/data/data.csv").then(function (data, err) {
     });
 
 
-    // xLinearScale function above csv import
+    // create x scale function
     var xLinearScale = d3.scaleLinear()
         .domain([8.5, d3.max(data, d => d.poverty)])
         .range([0, width]);
 
-    // Create y scale function
+    // create y scale function
     var yLinearScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.healthcare)])
         .range([height, 0]);
 
-    // Create initial axis functions
+    // create initial axis functions
     var bottomAxis = d3.axisBottom(xLinearScale);
     var leftAxis = d3.axisLeft(yLinearScale);
 
@@ -94,6 +94,7 @@ d3.csv("assets/data/data.csv").then(function (data, err) {
         .attr('font-size', '10px')
         .text(function (d) { return d.abbr });
 
+    // add in tool tips
     var toolTip = d3.tip()
         .attr("class", "d3-tip")
         .offset([80, -60])
